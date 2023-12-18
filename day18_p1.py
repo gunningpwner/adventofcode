@@ -9,7 +9,7 @@ from shapely import Polygon,points,covers
 # import matplotlib.pyplot as plt
 # import matplotlib
 # matplotlib.use('qt5agg')
-lines=open(r"C:\Users\gunni\Downloads\day18.txt")
+lines=open(r"C:\Users\RodriguesAT\Downloads\day18.txt")
 # lines="""R 6 (#70c710)
 # D 5 (#0dc571)
 # L 2 (#5713f0)

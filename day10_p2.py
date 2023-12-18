@@ -5,8 +5,9 @@ Created on Sun Dec 10 10:41:12 2023
 @author: gunni
 """
 import math
-
-lines = open(r"C:\Users\gunni\Downloads\input.txt").read()
+from shapely import Polygon,points,covers
+import numpy as np
+lines = open(r"C:\Users\RodriguesAT\Downloads\day10.txt").read()
 
 test1 = """...........
 .S-------7.
@@ -48,7 +49,7 @@ L7JLJL-JLJLJL--JLJ.L"""
 
 
 
-using = test2
+using = lines
 
 padded = ['.'+l+'.' for l in using.split('\n')]
 llen = len(padded[0])
@@ -102,26 +103,29 @@ print(i,math.ceil(i/2))
 
 
 coords = [(i%llen,i//llen) for i in coords]
+pol = Polygon(coords)
+testers = [a.reshape(-1) for a in np.meshgrid(*[range(int(a)+1) for a in pol.bounds[2:]])]
+testers = [t for t in zip(*testers) if t not in coords]
+print(sum(covers(pol,points(testers))))
+# bbox = [*zip(min(coords),max(coords))]
 
-bbox = [*zip(min(coords),max(coords))]
+# inside = 0
 
-inside = 0
-
-for x in range(bbox[0][0]+1,bbox[0][1]):
-    hits = 0
-    print(padded[x::llen])
-    for y in range(bbox[1][0]-1,bbox[1][1]+1)[::-1]:
-        # print(padded[y*llen:(y+1)*llen])
-        # print(padded[y*llen+x])
-        # print(x,y,hits,inside)
-        if (x,y) in coords:
-            if padded[y*llen+x] in '-':
-            # print(x,y,hits,inside)
-                hits+=1
-            print(padded[y*llen+x],hits,x,y)
+# for x in range(bbox[0][0]+1,bbox[0][1]):
+#     hits = 0
+#     print(padded[x::llen])
+#     for y in range(bbox[1][0]-1,bbox[1][1]+1)[::-1]:
+#         # print(padded[y*llen:(y+1)*llen])
+#         # print(padded[y*llen+x])
+#         # print(x,y,hits,inside)
+#         if (x,y) in coords:
+#             if padded[y*llen+x] in '-':
+#             # print(x,y,hits,inside)
+#                 hits+=1
+#             print(padded[y*llen+x],hits,x,y)
                 
-            continue
-        print(padded[y*llen+x],hits)
-        inside+=hits%2
-    print(inside,'\n')
+#             continue
+#         print(padded[y*llen+x],hits)
+#         inside+=hits%2
+#     print(inside,'\n')
        
